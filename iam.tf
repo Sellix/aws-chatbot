@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "web-app-chatbot-assume" {
   }
 }
 
-data "aws_iam_policy_document" "web-app-slack-notifications" {
+data "aws_iam_policy_document" "web-app-chatbot-sns-policy-document" {
   statement {
     actions = ["sns:Publish"]
     principals {
@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "web-app-slack-notifications" {
         "codestar-notifications.amazonaws.com"
       ]
     }
-    resources = [aws_sns_topic.web-app-slack-notifications.arn]
+    resources = [aws_sns_topic.web-app-chatbot-sns-topic.arn]
   }
 }
 
