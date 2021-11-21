@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "web-app-chatbot-assume" {
   }
 }
 
-data "aws_iam_policy_document" "web-app-chatbot-sns-policy-document" {
+data "aws_iam_policy_document" "web-app-us-west-1-chatbot-sns-policy-document" {
   statement {
     actions = ["sns:Publish"]
     principals {
@@ -21,30 +21,47 @@ data "aws_iam_policy_document" "web-app-chatbot-sns-policy-document" {
         "codestar-notifications.amazonaws.com"
       ]
     }
-    resources = [aws_sns_topic.web-app-chatbot-sns-topic.arn]
+    resources = [
+      aws_sns_topic.web-app-us-east-1-chatbot-sns-topic.arn
+    ]
+  }
+}
+
+data "aws_iam_policy_document" "web-app-eu-west-1-chatbot-sns-policy-document" {
+  statement {
+    actions = ["sns:Publish"]
+    principals {
+      type = "Service"
+      identifiers = [
+        "codestar-notifications.amazonaws.com"
+      ]
+    }
+    resources = [
+      aws_sns_topic.web-app-eu-west-1-chatbot-sns-topic.arn,
+    ]
   }
 }
 
 data "aws_iam_policy_document" "web-app-chatbot-policy-document" {
   statement {
     actions = [
-        "cloudwatch:Describe*",
-        "cloudwatch:Get*",
-        "cloudwatch:List*"
+      "cloudwatch:Describe*",
+      "cloudwatch:Get*",
+      "cloudwatch:List*"
     ]
     resources = ["*"]
   }
 }
 
 resource "aws_iam_role" "web-app-chatbot-role" {
-  name = "sellix-web-app-chatbot-role"
+  name               = "sellix-web-app-chatbot-role"
   assume_role_policy = data.aws_iam_policy_document.web-app-chatbot-assume.json
 }
 
 resource "aws_iam_policy" "web-app-chatbot-policy" {
-  name        = "sellix-web-app-chatbot-policy"
-  path        = "/"
-  policy      = data.aws_iam_policy_document.web-app-chatbot-policy-document.json
+  name   = "sellix-web-app-chatbot-policy"
+  path   = "/"
+  policy = data.aws_iam_policy_document.web-app-chatbot-policy-document.json
 }
 
 resource "aws_iam_role_policy_attachment" "web-app-chatbot-role-policy-attachment" {

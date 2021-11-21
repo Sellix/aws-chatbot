@@ -6,6 +6,7 @@ terraform {
     }
   }
   backend "s3" {
+    profile        = "sellix-terraform"
     bucket         = "sellix-deployments"
     region         = "eu-west-1"
     encrypt        = true
@@ -15,7 +16,16 @@ terraform {
 }
 
 provider "aws" {
-  region     = var.aws_region
+  profile    = "sellix-terraform"
+  region     = "eu-west-1"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+}
+
+provider "aws" {
+  alias      = "us-east-1"
+  profile    = "sellix-terraform"
+  region     = "us-east-1"
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
 }

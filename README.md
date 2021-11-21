@@ -6,6 +6,6 @@ Contains the Terraform template for AWS ChatBot, connected to the pipeline in or
 
 ## Setup
 
-`terraform init -backend-config="access_key=" -backend-config="secret_key="`
+`terraform init`
 
 `terraform apply`
